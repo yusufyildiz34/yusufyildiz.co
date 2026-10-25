@@ -1,10 +1,10 @@
 # yusufyildiz.co
 
-Personal site of Yusuf Yildiz, built with [Astro](https://astro.build) and deployed to GitHub Pages on every push to `main`.
+Personal site of Yusuf YILDIZ, built with [Astro](https://astro.build) and deployed to GitHub Pages on every push to `main`.
 
 ## Edit content
 
-All copy (intro, work history, stack, contact links) lives in `src/data/profile.ts`. Change it there; the page picks it up on the next build.
+All copy (intro, services, about, contact links) lives in `src/data/profile.ts`. Change it there; the page picks it up on the next build. Icons come from [Phosphor Icons](https://phosphoricons.com) (MIT) via `src/components/Icon.astro`.
 
 ## Run locally
 
