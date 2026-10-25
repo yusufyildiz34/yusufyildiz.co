@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page not found" noindex>
+  <main id="main" class="wrap missing">
+    <h1>Not found</h1>
+    <p>There is no page at this address. It may have moved, or the link may be mistyped.</p>
+    <p><a href="/">Go to the homepage</a></p>
+  </main>
+</Base>
+
+<style>
+  .missing {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 10vw, 7rem);
+    font-weight: 820;
+    font-stretch: 125%;
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+  }
+
+  p {
+    max-width: 50ch;
+  }
+</style>

@@ -1,0 +1,452 @@
+---
+import Base from '../layouts/Base.astro';
+import SystemDiagram from '../components/SystemDiagram.astro';
+import { profile, jobs, earlier, stack, education } from '../data/profile';
+
+const year = new Date().getFullYear();
+---
+
+<Base>
+  <header class="wrap top">
+    <a class="mark" href="/" aria-label="Yusuf Yildiz, home">YY</a>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="wrap hero" aria-labelledby="name">
+      <h1 id="name">Yusuf<br /> Yildiz</h1>
+      <p class="role">{profile.role}</p>
+
+      <div class="figure">
+        <SystemDiagram />
+      </div>
+
+      <div class="intro">
+        <p class="lede">{profile.lede}</p>
+        <p class="status">
+          Based in {profile.location}. {profile.availability}
+        </p>
+        <p class="actions">
+          <a class="button" href={`mailto:${profile.email}`}>Email me</a>
+          <a href={profile.linkedin} rel="me">LinkedIn</a>
+          <a href={profile.github} rel="me">GitHub</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="work" class="wrap block" aria-labelledby="work-title">
+      <h2 id="work-title">Work</h2>
+      <div class="body">
+        <ol class="timeline">
+          {
+            jobs.map((job) => (
+              <li class="job">
+                <p class="years">{job.years}</p>
+                <div>
+                  <h3>
+                    {job.title}
+                    <span class="org">
+                      {job.org}, {job.context}
+                    </span>
+                  </h3>
+
+                  {job.points && (
+                    <ul class="points">
+                      {job.points.map((p) => (
+                        <li>{p}</li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {job.projects && (
+                    <div class="projects">
+                      {job.projects.map((project) => (
+                        <div class="project">
+                          <h4>
+                            {project.name}
+                            {(project.role || project.years) && (
+                              <span class="meta">
+                                {[project.role, project.years].filter(Boolean).join(', ')}
+                              </span>
+                            )}
+                          </h4>
+                          <ul class="points">
+                            {project.points.map((p) => (
+                              <li>{p}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {job.stack && <p class="stackline">{job.stack}</p>}
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <h3 class="sub">Before 2015</h3>
+        <ol class="earlier">
+          {
+            earlier.map((e) => (
+              <li>
+                <p class="years">{e.years}</p>
+                <p>
+                  <strong>{e.org}.</strong> {e.text}
+                </p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section id="stack" class="wrap block" aria-labelledby="stack-title">
+      <h2 id="stack-title">Stack</h2>
+      <div class="body">
+        <dl class="stack">
+          {
+            stack.map((s) => (
+              <div>
+                <dt>{s.group}</dt>
+                <dd>{s.items}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <section class="wrap block" aria-labelledby="edu-title">
+      <h2 id="edu-title">Education</h2>
+      <div class="body">
+        <p>
+          <strong>{education.degree}</strong>, {education.school}, {education.years}.
+        </p>
+        <p class="muted">Languages: {education.languages}.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="wrap block contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact</h2>
+      <div class="body">
+        <p>Email is the best way to reach me.</p>
+        <p class="email"><a href={`mailto:${profile.email}`}>{profile.email}</a></p>
+        <p class="actions">
+          <a href={profile.linkedin} rel="me">LinkedIn</a>
+          <a href={profile.github} rel="me">GitHub</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <p>© {year} {profile.name}</p>
+    <p><a href={profile.repo}>Source on GitHub</a></p>
+  </footer>
+</Base>
+
+<style>
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .mark {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 800;
+    font-stretch: 125%;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  nav {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+
+  nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  nav a:hover {
+    color: var(--accent);
+  }
+
+  /* Hero */
+  .hero {
+    padding-top: clamp(2rem, 8vw, 6rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+
+  h1 {
+    font-size: clamp(3.5rem, 13.5vw, 10.5rem);
+    font-weight: 820;
+    font-stretch: 125%;
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+  }
+
+  .role {
+    margin-top: 1.5rem;
+    font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+    font-weight: 450;
+    font-stretch: 100%;
+    line-height: 1.3;
+    max-width: 30ch;
+  }
+
+  .figure {
+    margin-top: clamp(2.5rem, 7vw, 5rem);
+  }
+
+  .intro {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    max-width: 64ch;
+  }
+
+  .lede {
+    font-size: clamp(1.1875rem, 2vw, 1.375rem);
+    line-height: 1.55;
+  }
+
+  .status {
+    margin-top: 1rem;
+    color: var(--muted);
+  }
+
+  .actions {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.75rem;
+  }
+
+  .actions a {
+    font-weight: 560;
+  }
+
+  .button {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 3px;
+  }
+
+  .button:hover {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  /* Sections: label column on the left, content on the right */
+  .block {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-top: clamp(2.5rem, 6vw, 4.5rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (min-width: 900px) {
+    .block {
+      grid-template-columns: 13rem minmax(0, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 760;
+    font-stretch: 118%;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+  }
+
+  .body {
+    max-width: 68ch;
+  }
+
+  .muted {
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+
+  /* Timeline */
+  .timeline,
+  .earlier {
+    list-style: none;
+    padding: 0;
+  }
+
+  .job {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .job + .job {
+    margin-top: 3rem;
+  }
+
+  @media (min-width: 640px) {
+    .job,
+    .earlier li {
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .years {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    font-stretch: 90%;
+    padding-top: 0.2rem;
+    white-space: nowrap;
+  }
+
+  h3 {
+    font-size: 1.3125rem;
+    font-weight: 680;
+    font-stretch: 108%;
+    line-height: 1.3;
+  }
+
+  .org {
+    display: block;
+    font-size: 1rem;
+    font-weight: 450;
+    font-stretch: 100%;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+
+  .projects {
+    margin-top: 1.25rem;
+    border-left: 2px solid var(--accent);
+    padding-left: 1.25rem;
+  }
+
+  .project + .project {
+    margin-top: 1.5rem;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 640;
+    line-height: 1.35;
+  }
+
+  .meta {
+    display: block;
+    font-weight: 400;
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+
+  .points {
+    margin-top: 0.6rem;
+    padding-left: 1.1rem;
+  }
+
+  .points li + li {
+    margin-top: 0.4rem;
+  }
+
+  .points li::marker {
+    color: var(--muted);
+  }
+
+  .stackline {
+    margin-top: 1rem;
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+
+  .sub {
+    margin-top: 3.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+  }
+
+  .earlier li {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .earlier li + li {
+    margin-top: 1rem;
+  }
+
+  /* Stack */
+  .stack div {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .stack div:first-child {
+    padding-top: 0;
+  }
+
+  @media (min-width: 640px) {
+    .stack div {
+      grid-template-columns: 12rem minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  dt {
+    font-weight: 640;
+  }
+
+  /* Contact */
+  .email {
+    margin-top: 1rem;
+    font-size: clamp(1.375rem, 4.2vw, 2.5rem);
+    font-weight: 720;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .email a {
+    color: var(--ink);
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 3px;
+  }
+
+  .email a:hover {
+    color: var(--accent);
+  }
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+</style>
