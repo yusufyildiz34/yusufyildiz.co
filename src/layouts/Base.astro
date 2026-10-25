@@ -3,6 +3,7 @@ import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
 import '../styles/global.css';
+import Analytics from '../components/Analytics.astro';
 import { profile, services, faqs } from '../data/profile';
 
 interface Props {
@@ -133,6 +134,7 @@ const graph = {
     <meta name="twitter:image:alt" content={`${profile.name}, ${profile.role}`} />
 
     {!noindex && <script type="application/ld+json" set:html={JSON.stringify(graph)} />}
+    <Analytics />
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>

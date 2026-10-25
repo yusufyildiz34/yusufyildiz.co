@@ -1,0 +1,62 @@
+---
+// Google Analytics 4, loaded after the page has rendered so it never slows the first paint.
+// Consent Mode v2: ad signals are always off; analytics cookies are off by default for
+// visitors in the EEA, the UK and Switzerland (no consent banner yet), on elsewhere.
+import { profile } from '../data/profile';
+
+const id = profile.gaMeasurementId;
+---
+
+<script is:inline define:vars={{ id }}>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  window.gtag = gtag;
+
+  var eea = [
+    'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT',
+    'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+    'GB', 'CH',
+  ];
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    region: eea,
+  });
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'granted',
+  });
+
+  gtag('js', new Date());
+  gtag('config', id, { allow_google_signals: false, allow_ad_personalization_signals: false });
+
+  // Count email clicks as leads, with the section they came from.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="mailto:"]');
+    if (!a) return;
+    var section = a.closest('section, header, footer');
+    gtag('event', 'generate_lead', {
+      method: 'email',
+      link_location: (section && (section.id || section.tagName.toLowerCase())) || 'page',
+    });
+  });
+
+  function load() {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+    document.head.appendChild(s);
+  }
+  function schedule() {
+    if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 3000 });
+    else setTimeout(load, 1500);
+  }
+  if (document.readyState === 'complete') schedule();
+  else window.addEventListener('load', schedule);
+</script>

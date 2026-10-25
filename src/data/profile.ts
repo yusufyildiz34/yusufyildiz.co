@@ -16,6 +16,7 @@ export const profile = {
   github: 'https://github.com/yusufyildiz34',
   githubHandle: 'yusufyildiz34',
   url: 'https://yusufyildiz.co/',
+  gaMeasurementId: 'G-1J0P085LKC',
   seoTitle: 'Yusuf YILDIZ | Senior Fullstack Java Developer & Technical Lead',
   description:
     'Yusuf YILDIZ, senior fullstack Java developer and technical lead in Istanbul, working remotely. Java 25, Spring Boot 4, React and Kubernetes for product teams.',
