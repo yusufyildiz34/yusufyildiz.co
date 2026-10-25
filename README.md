@@ -6,6 +6,12 @@ Personal site of Yusuf YILDIZ, built with [Astro](https://astro.build) and deplo
 
 All copy (intro, services, about, contact links) lives in `src/data/profile.ts`. Change it there; the page picks it up on the next build. Icons come from [Phosphor Icons](https://phosphoricons.com) (MIT) via `src/components/Icon.astro`.
 
+## SEO and AI search
+
+- `<head>` meta, Open Graph and Twitter tags, plus JSON-LD (`ProfilePage`, `Person` with services, `FAQPage`) are built in `src/layouts/Base.astro` from `src/data/profile.ts`.
+- `/sitemap.xml` and `/llms.txt` are generated at build time (`src/pages/sitemap.xml.ts`, `src/pages/llms.txt.ts`), so they always match the page.
+- `public/robots.txt` allows search engines and AI crawlers and points to the sitemap.
+
 ## Run locally
 
 Requires Node.js 22.23.4 or newer.

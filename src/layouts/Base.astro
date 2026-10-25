@@ -1,8 +1,9 @@
 ---
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
+import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
 import '../styles/global.css';
-import { profile } from '../data/profile';
+import { profile, services, faqs } from '../data/profile';
 
 interface Props {
   title?: string;
@@ -10,21 +11,78 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title = profile.name, description = profile.description, noindex = false } = Astro.props;
+const { title = profile.seoTitle, description = profile.description, noindex = false } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/og.png', Astro.site);
+const site = Astro.site!.toString();
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL('/og.png', Astro.site).toString();
+const personId = `${site}#person`;
 
-const person = {
+// Structured data for search engines and AI answer engines.
+const graph = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: profile.name,
-  url: Astro.site?.toString(),
-  jobTitle: 'Senior Full-Stack Java Developer',
-  email: `mailto:${profile.email}`,
-  address: { '@type': 'PostalAddress', addressLocality: 'Istanbul', addressCountry: 'TR' },
-  sameAs: [profile.linkedin, profile.github],
-  knowsAbout: ['Java', 'Spring Boot', 'Microservices', 'React', 'Kubernetes'],
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${site}#website`,
+      url: site,
+      name: profile.name,
+      description: profile.description,
+      inLanguage: 'en',
+      publisher: { '@id': personId },
+    },
+    {
+      '@type': 'ProfilePage',
+      '@id': `${site}#profile`,
+      url: site,
+      name: profile.seoTitle,
+      isPartOf: { '@id': `${site}#website` },
+      about: { '@id': personId },
+      mainEntity: { '@id': personId },
+      primaryImageOfPage: ogImage,
+      inLanguage: 'en',
+    },
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: profile.name,
+      alternateName: ['Yusuf Yildiz', 'Yusuf Yıldız'],
+      givenName: 'Yusuf',
+      familyName: 'YILDIZ',
+      url: site,
+      image: ogImage,
+      email: `mailto:${profile.email}`,
+      jobTitle: 'Senior Fullstack Java Developer and Technical Lead',
+      description: profile.summary,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Istanbul',
+        addressCountry: 'TR',
+      },
+      knowsLanguage: profile.languages,
+      knowsAbout: profile.skills,
+      sameAs: [profile.linkedin, profile.github],
+      makesOffer: services.map((s) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: s.title,
+          description: s.text,
+          provider: { '@id': personId },
+          areaServed: 'Worldwide',
+        },
+      })),
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${site}#faq`,
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
 };
 ---
 
@@ -35,23 +93,46 @@ const person = {
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={profile.name} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {
+      noindex ? (
+        <meta name="robots" content="noindex, follow" />
+      ) : (
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      )
+    }
+
+    <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#ffffff" />
 
-    <meta property="og:type" content="website" />
+    <link rel="me" href={profile.linkedin} />
+    <link rel="me" href={profile.github} />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable summary" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${profile.name}, ${profile.role}`} />
+    <meta property="profile:first_name" content="Yusuf" />
+    <meta property="profile:last_name" content="YILDIZ" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${profile.name}, ${profile.role}`} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+    {!noindex && <script type="application/ld+json" set:html={JSON.stringify(graph)} />}
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>

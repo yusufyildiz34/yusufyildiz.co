@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import CodeCard from '../components/CodeCard.astro';
-import { profile, services, reasons, industries } from '../data/profile';
+import { profile, services, reasons, industries, stats, faqs } from '../data/profile';
 
 const year = new Date().getFullYear();
 const mailto = `mailto:${profile.email}`;
@@ -18,6 +18,7 @@ const mailto = `mailto:${profile.email}`;
       <nav aria-label="Sections">
         <a class="navlink" href="#services">Services</a>
         <a class="navlink" href="#about">About</a>
+        <a class="navlink" href="#faq">FAQ</a>
         <a class="navlink" href="#contact">Contact</a>
         <a class="btn dark small" href="#contact">Let's talk</a>
       </nav>
@@ -56,22 +57,41 @@ const mailto = `mailto:${profile.email}`;
       </div>
     </section>
 
-    <section id="services" class="section" aria-labelledby="services-title">
+    <section id="services" class="section tint" aria-labelledby="services-title">
       <div class="wrap">
-        <div class="head">
-          <h2 id="services-title">How I can help</h2>
-          <p>Hands-on engineering and technical leadership for teams building products on Java.</p>
+        <div class="section-head">
+          <div>
+            <p class="kicker">// Services</p>
+            <h2 id="services-title">Engineering and leadership for Java teams</h2>
+          </div>
+          <p class="section-lead">
+            Hands-on help across the whole product, from backend services and user-facing apps to the pipeline that ships them.
+          </p>
         </div>
-        <ul class="cards">
+
+        <ul class="bento">
           {
             services.map((s) => (
-              <li class="card">
-                <span class="icon-box">
-                  <Icon name={s.icon} size={26} />
+              <li class:list={['svc', s.layout]}>
+                <span class="tile">
+                  <Icon name={s.icon} size={24} />
                 </span>
-                <h3>{s.title}</h3>
-                <p class="card-text">{s.text}</p>
-                <p class="tools">{s.tools}</p>
+                <div class="svc-body">
+                  <h3>{s.title}</h3>
+                  <p class="svc-text">{s.text}</p>
+                </div>
+                {s.layout === 'featured' && (
+                  <div class="monitor" aria-hidden="true">
+                    <div class="monitor-row"><span class="verb get">GET</span><span class="path">/orders/{'{id}'}</span><span class="code">200</span><span class="ms">9 ms</span></div>
+                    <div class="monitor-row"><span class="verb post">POST</span><span class="path">/payments</span><span class="code">201</span><span class="ms">41 ms</span></div>
+                    <div class="monitor-row"><span class="verb get">GET</span><span class="path">/actuator/health</span><span class="code">200</span><span class="ms">2 ms</span></div>
+                  </div>
+                )}
+                <ul class="tags">
+                  {s.tools.map((t) => (
+                    <li>{t}</li>
+                  ))}
+                </ul>
               </li>
             ))
           }
@@ -79,30 +99,73 @@ const mailto = `mailto:${profile.email}`;
       </div>
     </section>
 
-    <section id="about" class="section tint" aria-labelledby="about-title">
+    <section id="about" class="section" aria-labelledby="about-title">
       <div class="wrap about">
-        <div class="head about-head">
+        <div class="about-intro">
+          <p class="kicker">// About</p>
           <h2 id="about-title">Why teams work with me</h2>
-          <p>
-            I have been building production software since 2009, as an engineer and as a technical lead. My work
-            spans {industries.charAt(0).toLowerCase() + industries.slice(1)}
+          <p class="section-lead">
+            I have been building production software since 2009, as an engineer and as a technical lead, for products in
+            health IoT, mobile payments, telecom, digital identity and commodity trading.
           </p>
-        </div>
-        <ul class="reasons">
-          {
-            reasons.map((r) => (
-              <li class="reason">
-                <span class="icon-box">
-                  <Icon name={r.icon} size={24} />
-                </span>
+          <dl class="stats">
+            {
+              stats.map((st) => (
                 <div>
-                  <h3>{r.title}</h3>
-                  <p>{r.text}</p>
+                  <dt>{st.label}</dt>
+                  <dd>{st.value}</dd>
                 </div>
-              </li>
+              ))
+            }
+          </dl>
+        </div>
+
+        <div class="panel">
+          <ul class="reasons">
+            {
+              reasons.map((r) => (
+                <li class="reason">
+                  <span class="tile">
+                    <Icon name={r.icon} size={22} />
+                  </span>
+                  <div>
+                    <h3>{r.title}</h3>
+                    <p>{r.text}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="industries">
+            <p class="industries-label">Industries</p>
+            <ul class="tags">
+              {industries.map((i) => <li>{i}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section tint" aria-labelledby="faq-title">
+      <div class="wrap faq">
+        <div class="faq-intro">
+          <p class="kicker">// FAQ</p>
+          <h2 id="faq-title">Frequently asked questions</h2>
+          <p class="section-lead">Something else on your mind? <a class="inline" href={mailto}>Send me an email</a>.</p>
+        </div>
+        <div class="faq-list">
+          {
+            faqs.map((f, i) => (
+              <details class="faq-item" open={i === 0}>
+                <summary>
+                  <h3>{f.q}</h3>
+                  <span class="plus" aria-hidden="true" />
+                </summary>
+                <p>{f.a}</p>
+              </details>
             ))
           }
-        </ul>
+        </div>
       </div>
     </section>
 
@@ -111,6 +174,7 @@ const mailto = `mailto:${profile.email}`;
         <div class="cta">
           <div class="cta-bg" aria-hidden="true"></div>
           <div class="cta-copy">
+            <p class="kicker light">// Contact</p>
             <h2 id="contact-title">Have a project in mind?</h2>
             <p>Tell me about your product, your team and what you need. Email is the quickest way to reach me.</p>
             <div class="actions">
@@ -166,11 +230,13 @@ const mailto = `mailto:${profile.email}`;
         <span>{profile.name}</span>
       </a>
       <p class="copy">© {year} {profile.name}. {profile.role}.</p>
-      <ul class="socials" aria-label="Social links">
+      <nav aria-label="Social links">
+      <ul class="socials">
         <li><a class="social" href={mailto} aria-label="Email"><Icon name="envelope" size={20} /></a></li>
         <li><a class="social" href={profile.linkedin} rel="me noopener" target="_blank" aria-label="LinkedIn"><Icon name="linkedin" size={20} /></a></li>
         <li><a class="social" href={profile.github} rel="me noopener" target="_blank" aria-label="GitHub"><Icon name="github" size={20} /></a></li>
       </ul>
+      </nav>
     </div>
   </footer>
 </Base>
@@ -427,18 +493,27 @@ const mailto = `mailto:${profile.email}`;
 
   /* Sections */
   .section {
-    padding: clamp(4.5rem, 9vw, 7rem) 0;
+    padding: clamp(4.5rem, 9vw, 7.5rem) 0;
   }
 
   .tint {
-    background: var(--bg-soft);
+    background:
+      radial-gradient(900px 400px at 100% 0%, rgb(47 85 212 / 0.05), transparent 70%),
+      var(--bg-soft);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
   }
 
-  .head {
-    max-width: 640px;
-    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .kicker.light {
+    color: #8fb3ff;
   }
 
   h2 {
@@ -449,127 +524,473 @@ const mailto = `mailto:${profile.email}`;
     text-wrap: balance;
   }
 
-  .head p {
-    margin-top: 1rem;
-    color: var(--soft);
-    font-size: 1.125rem;
-  }
-
-  .icon-box {
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    box-shadow: inset 0 0 0 1px rgb(47 85 212 / 0.1);
-  }
-
-  /* Service cards */
-  .cards {
+  .section-head {
     display: grid;
     gap: 1.25rem;
+    margin-bottom: clamp(2.5rem, 5vw, 3.75rem);
   }
 
-  @media (min-width: 680px) {
-    .cards {
-      grid-template-columns: repeat(2, 1fr);
+  @media (min-width: 1000px) {
+    .section-head {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 4rem;
+      align-items: end;
+    }
+  }
+
+  .section-lead {
+    color: var(--soft);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 52ch;
+  }
+
+  .tile {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: linear-gradient(150deg, #1d2b49 0%, #0c1424 70%);
+    color: #8fb3ff;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.1),
+      0 6px 14px -6px rgb(11 18 32 / 0.45);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tags li {
+    padding: 0.28rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-soft);
+    color: var(--soft);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  /* Services bento */
+  .bento {
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 700px) {
+    .bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .svc.featured,
+    .svc.wide {
+      grid-column: 1 / -1;
     }
   }
 
   @media (min-width: 1040px) {
-    .cards {
-      grid-template-columns: repeat(3, 1fr);
+    .bento {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .svc.featured {
+      grid-column: span 2;
     }
   }
 
-  .card {
+  .svc {
+    position: relative;
     display: flex;
     flex-direction: column;
-    padding: 1.75rem;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
     background: #ffffff;
     border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: 0 1px 2px rgb(11 18 32 / 0.04);
+    border-radius: 20px;
+    box-shadow:
+      0 1px 2px rgb(11 18 32 / 0.04),
+      0 12px 32px -20px rgb(11 18 32 / 0.18);
     transition:
       border-color 0.2s,
       box-shadow 0.2s,
       transform 0.2s;
   }
 
-  .card:hover {
-    border-color: var(--line-strong);
-    box-shadow: 0 16px 32px -16px rgb(11 18 32 / 0.18);
+  .svc:hover {
+    border-color: rgb(47 85 212 / 0.28);
+    box-shadow:
+      0 1px 2px rgb(11 18 32 / 0.04),
+      0 24px 44px -24px rgb(11 18 32 / 0.28);
     transform: translateY(-2px);
   }
 
   h3 {
-    font-size: 1.125rem;
+    font-size: 1.1875rem;
     font-weight: 600;
-    letter-spacing: -0.015em;
-    line-height: 1.35;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
   }
 
-  .card h3 {
-    margin-top: 1.25rem;
-  }
-
-  .card-text {
-    margin-top: 0.6rem;
+  .svc-text {
+    margin-top: 0.55rem;
     color: var(--soft);
     font-size: 0.96875rem;
+    line-height: 1.65;
   }
 
-  .tools {
+  .svc .tags {
     margin-top: auto;
-    padding-top: 1.25rem;
-    color: var(--mist);
-    font-size: 0.8125rem;
-    line-height: 1.55;
+    padding-top: 0.25rem;
   }
 
-  .card-text + .tools {
-    margin-top: auto;
+  /* Featured card: dark, with a small API monitor */
+  .svc.featured {
+    background: var(--navy);
+    border-color: #1d2a40;
+    color: #ffffff;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .svc.featured::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(520px 260px at 100% 0%, rgb(47 85 212 / 0.35), transparent 70%),
+      linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+    background-size:
+      auto,
+      40px 40px,
+      40px 40px;
+  }
+
+  .svc.featured:hover {
+    border-color: #2b3c5c;
+  }
+
+  .svc.featured .tile {
+    background: rgb(255 255 255 / 0.08);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+  }
+
+  .svc.featured h3 {
+    font-size: clamp(1.375rem, 2.2vw, 1.625rem);
+  }
+
+  .svc.featured .svc-text {
+    color: #b6c1d3;
+    max-width: 46ch;
+    font-size: 1rem;
+  }
+
+  .svc.featured .tags li {
+    background: rgb(255 255 255 / 0.06);
+    border-color: rgb(255 255 255 / 0.1);
+    color: #c3cede;
+  }
+
+  .monitor {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.85rem;
+    border: 1px solid rgb(255 255 255 / 0.08);
+    border-radius: 14px;
+    background: rgb(5 10 20 / 0.45);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+  }
+
+  .monitor-row {
+    display: grid;
+    grid-template-columns: 2.6rem minmax(0, 1fr) 1.75rem 2.75rem;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.4rem 0.55rem;
+    border-radius: 8px;
+    background: rgb(255 255 255 / 0.03);
+    color: #c3cede;
+  }
+
+  .verb {
+    font-weight: 600;
+  }
+
+  .verb.get {
+    color: #6fd6c3;
+  }
+
+  .verb.post {
+    color: #f2c879;
+  }
+
+  .path {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .code {
+    color: #8fd9a8;
+  }
+
+  .ms {
+    color: #6f809a;
+    text-align: right;
+  }
+
+  @media (min-width: 1040px) {
+    .svc.featured {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: auto 1fr auto;
+      column-gap: 2.25rem;
+    }
+
+    .svc.featured .tile,
+    .svc.featured .svc-body,
+    .svc.featured .tags {
+      grid-column: 1;
+    }
+
+    .svc.featured .monitor {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+      align-self: center;
+    }
+  }
+
+  /* Wide card: one row on large screens */
+  @media (min-width: 1040px) {
+    .svc.wide {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) minmax(0, 0.8fr);
+      align-items: center;
+      column-gap: 1.75rem;
+    }
+
+    .svc.wide .tags {
+      margin-top: 0;
+      padding-top: 0;
+      justify-content: flex-end;
+    }
   }
 
   /* About */
   .about {
     display: grid;
-    gap: 2.5rem;
+    gap: 3rem;
   }
 
   @media (min-width: 1000px) {
     .about {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
       gap: 5rem;
-      align-items: start;
-    }
-
-    .about-head {
-      margin-bottom: 0;
+      align-items: center;
     }
   }
 
-  .reasons {
+  .about-intro .section-lead {
+    margin-top: 1.25rem;
+  }
+
+  .stats {
     display: grid;
-    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 1.25rem 1rem 0 0;
+  }
+
+  .stats dd {
+    order: -1;
+  }
+
+  .stats div + div {
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--line);
+  }
+
+  .stats dd {
+    font-size: clamp(1.875rem, 3.4vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .stats dt {
+    color: var(--mist);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .panel {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow:
+      0 1px 2px rgb(11 18 32 / 0.04),
+      0 30px 60px -30px rgb(11 18 32 / 0.22);
+    overflow: hidden;
   }
 
   .reason {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
     gap: 1.1rem;
-    padding: 1.5rem;
-    background: #ffffff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
+    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  }
+
+  .reason + .reason {
+    border-top: 1px solid var(--line);
+  }
+
+  .reason h3 {
+    font-size: 1.0625rem;
   }
 
   .reason p {
-    margin-top: 0.35rem;
+    margin-top: 0.3rem;
+    color: var(--soft);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .industries {
+    padding: 1.25rem clamp(1.25rem, 2.5vw, 1.75rem) 1.5rem;
+    border-top: 1px solid var(--line);
+    background: var(--bg-soft);
+  }
+
+  .industries-label {
+    margin-bottom: 0.75rem;
+    color: var(--mist);
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+
+  .industries .tags li {
+    background: #ffffff;
+  }
+
+  /* FAQ */
+  .faq {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 1000px) {
+    .faq {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 5rem;
+      align-items: start;
+    }
+  }
+
+  .faq-intro .section-lead {
+    margin-top: 1.25rem;
+  }
+
+  .inline {
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .faq-item {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .faq-item[open] {
+    border-color: var(--line-strong);
+    box-shadow: 0 16px 32px -24px rgb(11 18 32 / 0.25);
+  }
+
+  .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.15rem 1.35rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item h3 {
+    font-size: 1rem;
+    font-weight: 560;
+    letter-spacing: -0.01em;
+  }
+
+  .plus {
+    position: relative;
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+  }
+
+  .plus::before,
+  .plus::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 1.5px;
+    background: var(--ink);
+    border-radius: 1px;
+    transform: translate(-50%, -50%);
+    transition: transform 0.2s;
+  }
+
+  .plus::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .faq-item[open] .plus::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .faq-item p {
+    padding: 0 1.35rem 1.25rem;
     color: var(--soft);
     font-size: 0.96875rem;
+    line-height: 1.7;
+    max-width: 62ch;
   }
 
   /* Contact */
