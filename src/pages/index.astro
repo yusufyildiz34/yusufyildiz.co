@@ -1,145 +1,176 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import { profile, services, about } from '../data/profile';
+import CodeCard from '../components/CodeCard.astro';
+import { profile, services, reasons, industries } from '../data/profile';
 
 const year = new Date().getFullYear();
 const mailto = `mailto:${profile.email}`;
 ---
 
 <Base>
-  <header class="wrap top">
-    <a class="wordmark" href="/" aria-label={`${profile.name}, home`}>{profile.name}</a>
-    <nav aria-label="Sections">
-      <a class="navlink" href="#services">Services</a>
-      <a class="navlink" href="#about">About</a>
-      <a class="talk" href="#contact">
-        <Icon name="envelope" size={18} />
-        <span>Let's talk</span>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="/" aria-label={`${profile.name}, home`}>
+        <img class="mark" src="/favicon.svg" width="32" height="32" alt="" />
+        <span>{profile.name}</span>
       </a>
-    </nav>
+      <nav aria-label="Sections">
+        <a class="navlink" href="#services">Services</a>
+        <a class="navlink" href="#about">About</a>
+        <a class="navlink" href="#contact">Contact</a>
+        <a class="btn dark small" href="#contact">Let's talk</a>
+      </nav>
+    </div>
   </header>
 
   <main id="main">
-    <section class="wrap hero" aria-labelledby="name">
-      <h1 id="name">
-        <span class="line"><span>{profile.firstName}</span></span>
-        <span class="line"><span>{profile.lastName}</span></span>
-      </h1>
-      <div class="rule" aria-hidden="true"></div>
-
-      <div class="hero-grid">
-        <p class="role">{profile.role}</p>
-        <div class="pitch">
-          <p class="statement">{profile.statement}</p>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="pill"><span class="pulse" aria-hidden="true"></span>{profile.availability}</p>
+          <h1 id="hero-title">{profile.headline}</h1>
+          <p class="lead">{profile.intro}</p>
           <div class="actions">
-            <a class="btn primary" href={mailto}>
-              <Icon name="envelope" size={20} />
+            <a class="btn dark" href={mailto}>
+              <Icon name="envelope" size={18} />
               <span>Start a project</span>
             </a>
-            <a class="btn ghost" href="#services">Explore services</a>
+            <a class="btn light" href="#services">View services</a>
           </div>
+          <ul class="highlights">
+            {
+              profile.highlights.map((h) => (
+                <li>
+                  <Icon name="check-circle" size={18} />
+                  <span>{h}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="hero-visual">
+          <CodeCard />
         </div>
       </div>
-
-      <div class="meta">
-        <p class="available"><span class="dot" aria-hidden="true"></span>{profile.availability}</p>
-        <p class="where">
-          <Icon name="map-pin" size={18} />
-          <span>{profile.location}. Working remotely ({profile.timezone})</span>
-        </p>
-      </div>
     </section>
 
-    <section id="services" class="wrap section" aria-labelledby="services-title">
-      <div class="section-head">
-        <h2 id="services-title">Services</h2>
-        <p>Hands-on engineering and technical leadership for teams building products on Java.</p>
-      </div>
-
-      <ul class="services">
-        {
-          services.map((s) => (
-            <li class="service">
-              <Icon name={s.icon} size={40} class="service-icon" />
-              <h3>{s.title}</h3>
-              <p class="service-text">{s.text}</p>
-              <p class="tools">{s.tools}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-
-    <section id="about" class="wrap section about" aria-labelledby="about-title">
-      <h2 id="about-title">About</h2>
-      <div class="about-body">
-        {about.text.map((t) => <p>{t}</p>)}
-        <dl class="facts">
+    <section id="services" class="section" aria-labelledby="services-title">
+      <div class="wrap">
+        <div class="head">
+          <h2 id="services-title">How I can help</h2>
+          <p>Hands-on engineering and technical leadership for teams building products on Java.</p>
+        </div>
+        <ul class="cards">
           {
-            about.facts.map((f) => (
-              <div>
-                <dt>{f.label}</dt>
-                <dd>{f.value}</dd>
-              </div>
+            services.map((s) => (
+              <li class="card">
+                <span class="icon-box">
+                  <Icon name={s.icon} size={26} />
+                </span>
+                <h3>{s.title}</h3>
+                <p class="card-text">{s.text}</p>
+                <p class="tools">{s.tools}</p>
+              </li>
             ))
           }
-        </dl>
+        </ul>
       </div>
     </section>
 
-    <section id="contact" class="wrap section" aria-labelledby="contact-title">
-      <div class="panel">
-        <div class="panel-intro">
-          <h2 id="contact-title">Let's work together</h2>
-          <p>Tell me about your product, your team and what you need. Email is the quickest way to reach me.</p>
-          <a class="btn primary" href={mailto}>
-            <Icon name="envelope" size={20} />
-            <span>Email me</span>
-          </a>
+    <section id="about" class="section tint" aria-labelledby="about-title">
+      <div class="wrap about">
+        <div class="head about-head">
+          <h2 id="about-title">Why teams work with me</h2>
+          <p>
+            I have been building production software since 2009, as an engineer and as a technical lead. My work
+            spans {industries.charAt(0).toLowerCase() + industries.slice(1)}
+          </p>
         </div>
-
-        <ul class="channels">
-          <li>
-            <a class="channel" href={mailto}>
-              <span class="badge"><Icon name="envelope" size={22} /></span>
-              <span class="channel-text"><span class="label">Email</span><span class="value">{profile.email}</span></span>
-              <Icon name="arrow-up-right" size={18} class="go" />
-            </a>
-          </li>
-          <li>
-            <a class="channel" href={profile.linkedin} rel="me noopener" target="_blank">
-              <span class="badge"><Icon name="linkedin" size={22} /></span>
-              <span class="channel-text"><span class="label">LinkedIn</span><span class="value">{profile.linkedinHandle}</span></span>
-              <Icon name="arrow-up-right" size={18} class="go" />
-            </a>
-          </li>
-          <li>
-            <a class="channel" href={profile.github} rel="me noopener" target="_blank">
-              <span class="badge"><Icon name="github" size={22} /></span>
-              <span class="channel-text"><span class="label">GitHub</span><span class="value">{profile.githubHandle}</span></span>
-              <Icon name="arrow-up-right" size={18} class="go" />
-            </a>
-          </li>
-          <li>
-            <div class="channel static">
-              <span class="badge"><Icon name="map-pin" size={22} /></span>
-              <span class="channel-text"><span class="label">Location</span><span class="value">{profile.location} ({profile.timezone})</span></span>
-            </div>
-          </li>
+        <ul class="reasons">
+          {
+            reasons.map((r) => (
+              <li class="reason">
+                <span class="icon-box">
+                  <Icon name={r.icon} size={24} />
+                </span>
+                <div>
+                  <h3>{r.title}</h3>
+                  <p>{r.text}</p>
+                </div>
+              </li>
+            ))
+          }
         </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="section" aria-labelledby="contact-title">
+      <div class="wrap">
+        <div class="cta">
+          <div class="cta-bg" aria-hidden="true"></div>
+          <div class="cta-copy">
+            <h2 id="contact-title">Have a project in mind?</h2>
+            <p>Tell me about your product, your team and what you need. Email is the quickest way to reach me.</p>
+            <div class="actions">
+              <a class="btn white" href={mailto}>
+                <Icon name="envelope" size={18} />
+                <span>Email me</span>
+              </a>
+              <a class="btn outline" href={profile.linkedin} rel="me noopener" target="_blank">
+                <Icon name="linkedin" size={18} />
+                <span>Connect on LinkedIn</span>
+              </a>
+            </div>
+          </div>
+
+          <ul class="channels">
+            <li>
+              <a class="channel" href={mailto}>
+                <span class="badge"><Icon name="envelope" size={20} /></span>
+                <span class="channel-text"><span class="label">Email</span><span class="value">{profile.email}</span></span>
+                <Icon name="arrow-up-right" size={18} class="go" />
+              </a>
+            </li>
+            <li>
+              <a class="channel" href={profile.linkedin} rel="me noopener" target="_blank">
+                <span class="badge"><Icon name="linkedin" size={20} /></span>
+                <span class="channel-text"><span class="label">LinkedIn</span><span class="value">{profile.linkedinHandle}</span></span>
+                <Icon name="arrow-up-right" size={18} class="go" />
+              </a>
+            </li>
+            <li>
+              <a class="channel" href={profile.github} rel="me noopener" target="_blank">
+                <span class="badge"><Icon name="github" size={20} /></span>
+                <span class="channel-text"><span class="label">GitHub</span><span class="value">{profile.githubHandle}</span></span>
+                <Icon name="arrow-up-right" size={18} class="go" />
+              </a>
+            </li>
+            <li>
+              <div class="channel">
+                <span class="badge"><Icon name="map-pin" size={20} /></span>
+                <span class="channel-text"><span class="label">Location</span><span class="value">{profile.location} ({profile.timezone})</span></span>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="wrap">
-    <div class="foot">
-    <p>© {year} {profile.name}</p>
-    <ul class="socials" aria-label="Social links">
-      <li><a class="social" href={mailto} aria-label="Email"><Icon name="envelope" size={20} /></a></li>
-      <li><a class="social" href={profile.linkedin} rel="me noopener" target="_blank" aria-label="LinkedIn"><Icon name="linkedin" size={20} /></a></li>
-      <li><a class="social" href={profile.github} rel="me noopener" target="_blank" aria-label="GitHub"><Icon name="github" size={20} /></a></li>
-    </ul>
+  <footer class="foot">
+    <div class="wrap foot-inner">
+      <a class="brand" href="/">
+        <img class="mark" src="/favicon.svg" width="32" height="32" alt="" />
+        <span>{profile.name}</span>
+      </a>
+      <p class="copy">© {year} {profile.name}. {profile.role}.</p>
+      <ul class="socials" aria-label="Social links">
+        <li><a class="social" href={mailto} aria-label="Email"><Icon name="envelope" size={20} /></a></li>
+        <li><a class="social" href={profile.linkedin} rel="me noopener" target="_blank" aria-label="LinkedIn"><Icon name="linkedin" size={20} /></a></li>
+        <li><a class="social" href={profile.github} rel="me noopener" target="_blank" aria-label="GitHub"><Icon name="github" size={20} /></a></li>
+      </ul>
     </div>
   </footer>
 </Base>
@@ -147,363 +178,473 @@ const mailto = `mailto:${profile.email}`;
 <style>
   /* Header */
   .top {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgb(255 255 255 / 0.82);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .top-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding-top: 1.75rem;
-    padding-bottom: 1.75rem;
+    height: 68px;
   }
 
-  .wordmark {
-    font-size: 1rem;
-    font-weight: 560;
-    font-stretch: 125%;
-    letter-spacing: 0.01em;
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-weight: 600;
+    font-size: 1.0625rem;
+    letter-spacing: -0.01em;
     white-space: nowrap;
+  }
+
+  .mark {
+    display: block;
+    width: 32px;
+    height: 32px;
   }
 
   nav {
     display: flex;
     align-items: center;
-    gap: clamp(1rem, 3vw, 2.25rem);
+    gap: clamp(0.75rem, 2.5vw, 2rem);
   }
 
   .navlink {
-    color: var(--mist);
+    color: var(--soft);
     font-size: 0.9375rem;
-    transition: color 0.2s;
+    font-weight: 450;
+    transition: color 0.15s;
   }
 
   .navlink:hover {
     color: var(--ink);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 720px) {
     .navlink {
       display: none;
     }
   }
 
-  .talk {
+  /* Buttons */
+  .btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.55rem 1rem;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
+    justify-content: center;
+    gap: 0.55rem;
+    height: 48px;
+    padding: 0 1.35rem;
+    border-radius: 12px;
     font-size: 0.9375rem;
-    font-weight: 500;
+    font-weight: 550;
+    letter-spacing: -0.005em;
     white-space: nowrap;
     transition:
-      background-color 0.2s,
-      border-color 0.2s;
+      background-color 0.15s,
+      border-color 0.15s,
+      box-shadow 0.15s,
+      transform 0.15s;
   }
 
-  .talk :global(.icon) {
-    color: var(--brass);
+  .btn.small {
+    height: 38px;
+    padding: 0 1rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
   }
 
-  .talk:hover {
-    background: var(--brass-soft);
-    border-color: var(--brass);
+  .btn.dark {
+    background: var(--ink);
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgb(11 18 32 / 0.2), 0 6px 16px -6px rgb(11 18 32 / 0.35);
+  }
+
+  .btn.dark:hover {
+    background: #1b2638;
+    transform: translateY(-1px);
+  }
+
+  .btn.light {
+    background: #ffffff;
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 1px 2px rgb(11 18 32 / 0.05);
+  }
+
+  .btn.light:hover {
+    border-color: #b9c0cc;
+  }
+
+  .btn.white {
+    background: #ffffff;
+    color: var(--ink);
+  }
+
+  .btn.white:hover {
+    background: #eef1f6;
+  }
+
+  .btn.outline {
+    color: #ffffff;
+    border: 1px solid rgb(255 255 255 / 0.22);
+  }
+
+  .btn.outline:hover {
+    border-color: rgb(255 255 255 / 0.5);
   }
 
   /* Hero */
   .hero {
-    padding-top: clamp(3.5rem, 11vw, 9rem);
-    padding-bottom: clamp(4rem, 8vw, 6rem);
-  }
-
-  h1 {
-    font-size: clamp(4.5rem, 14vw, 10.5rem);
-    font-weight: 280;
-    font-stretch: 125%;
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-  }
-
-  .line {
-    display: block;
+    position: relative;
     overflow: hidden;
-    padding-bottom: 0.04em;
+    padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(4rem, 8vw, 7rem);
   }
 
-  .line > span {
-    display: block;
-  }
-
-  .rule {
-    width: 72px;
-    height: 1px;
-    margin: clamp(2rem, 4vw, 3rem) 0;
-    background: var(--brass);
-    transform-origin: left;
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgb(11 18 32 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(11 18 32 / 0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 70% 60% at 75% 40%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 75% 40%, #000 20%, transparent 75%);
+    pointer-events: none;
   }
 
   .hero-grid {
+    position: relative;
     display: grid;
-    gap: 1.75rem;
+    gap: clamp(3rem, 6vw, 4rem);
+    align-items: center;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1000px) {
     .hero-grid {
-      grid-template-columns: 5fr 7fr;
-      gap: 4rem;
-      align-items: start;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     }
   }
 
-  .role {
-    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
-    line-height: 1.35;
-    max-width: 22ch;
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.85rem 0.4rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--soft);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgb(11 18 32 / 0.04);
   }
 
-  .statement {
-    font-size: clamp(1.125rem, 1.8vw, 1.3125rem);
-    line-height: 1.6;
-    color: var(--mist);
-    max-width: 46ch;
+  .pulse {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22a06b;
+  }
+
+  .pulse::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: rgb(34 160 107 / 0.18);
+  }
+
+  h1 {
+    margin-top: 1.5rem;
+    font-size: clamp(2.5rem, 5vw, 3.875rem);
+    font-weight: 620;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  .lead {
+    margin-top: 1.5rem;
+    max-width: 52ch;
+    color: var(--soft);
+    font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+    line-height: 1.65;
   }
 
   .actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 2rem;
+    margin-top: 2.25rem;
   }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.9rem 1.4rem;
-    border-radius: 999px;
-    font-size: 1rem;
-    font-weight: 560;
-    line-height: 1;
-    transition:
-      background-color 0.2s,
-      border-color 0.2s,
-      color 0.2s;
-  }
-
-  .primary {
-    background: var(--ink);
-    color: #ffffff;
-  }
-
-  .primary :global(.icon) {
-    color: var(--brass);
-  }
-
-  .primary:hover {
-    background: #22304a;
-  }
-
-  .ghost {
-    border: 1px solid var(--line-strong);
-    color: var(--ink);
-  }
-
-  .ghost:hover {
-    border-color: var(--brass);
-  }
-
-  .meta {
+  .highlights {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.75rem 2rem;
-    margin-top: clamp(3.5rem, 8vw, 6rem);
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
-    color: var(--mist);
+    gap: 0.75rem 1.75rem;
+    margin-top: 2.25rem;
+    color: var(--soft);
     font-size: 0.9375rem;
   }
 
-  .available,
-  .where {
+  .highlights li {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
 
-  .where :global(.icon) {
-    color: var(--brass);
+  .highlights :global(.icon) {
+    color: var(--accent);
   }
 
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--brass);
-    box-shadow: 0 0 0 4px var(--brass-soft);
+  .hero-visual {
+    position: relative;
+  }
+
+  .hero-visual::before {
+    content: '';
+    position: absolute;
+    inset: 8% -6% -10% 6%;
+    background: radial-gradient(closest-side, rgb(47 85 212 / 0.16), transparent);
+    filter: blur(10px);
+    z-index: -1;
+  }
+
+  @media (min-width: 1000px) {
+    .hero-visual {
+      transform: perspective(1600px) rotateY(-6deg) rotateX(2deg);
+    }
   }
 
   /* Sections */
   .section {
-    padding-top: clamp(4.5rem, 10vw, 8rem);
-    padding-bottom: clamp(1rem, 3vw, 2rem);
+    padding: clamp(4.5rem, 9vw, 7rem) 0;
+  }
+
+  .tint {
+    background: var(--bg-soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .head {
+    max-width: 640px;
+    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
   }
 
   h2 {
-    font-size: clamp(2.25rem, 5vw, 3.5rem);
-    font-weight: 300;
-    font-stretch: 118%;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
+    font-size: clamp(2rem, 4vw, 2.875rem);
+    font-weight: 620;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    text-wrap: balance;
   }
 
-  .section-head {
-    display: grid;
-    gap: 1rem;
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
-  }
-
-  .section-head p {
-    color: var(--mist);
-    max-width: 44ch;
+  .head p {
+    margin-top: 1rem;
+    color: var(--soft);
     font-size: 1.125rem;
   }
 
-  @media (min-width: 900px) {
-    .section-head {
-      grid-template-columns: 5fr 7fr;
-      gap: 4rem;
-      align-items: end;
-    }
-  }
-
-  /* Services: one grid, hairlines between cells */
-  .services {
+  .icon-box {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    overflow: hidden;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    box-shadow: inset 0 0 0 1px rgb(47 85 212 / 0.1);
   }
 
-  @media (min-width: 640px) {
-    .services {
+  /* Service cards */
+  .cards {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 680px) {
+    .cards {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   @media (min-width: 1040px) {
-    .services {
+    .cards {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  .service {
+  .card {
     display: flex;
     flex-direction: column;
-    background: var(--bg);
-    padding: clamp(1.75rem, 3vw, 2.5rem);
+    padding: 1.75rem;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 2px rgb(11 18 32 / 0.04);
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s,
+      transform 0.2s;
   }
 
-  .service :global(.service-icon) {
-    color: var(--brass);
+  .card:hover {
+    border-color: var(--line-strong);
+    box-shadow: 0 16px 32px -16px rgb(11 18 32 / 0.18);
+    transform: translateY(-2px);
   }
 
   h3 {
-    margin-top: 1.75rem;
-    font-size: 1.25rem;
-    font-weight: 560;
-    font-stretch: 106%;
-    line-height: 1.3;
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
   }
 
-  .service-text {
-    margin-top: 0.75rem;
+  .card h3 {
+    margin-top: 1.25rem;
+  }
+
+  .card-text {
+    margin-top: 0.6rem;
     color: var(--soft);
+    font-size: 0.96875rem;
   }
 
   .tools {
     margin-top: auto;
-    padding-top: 1.5rem;
+    padding-top: 1.25rem;
     color: var(--mist);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     line-height: 1.55;
+  }
+
+  .card-text + .tools {
+    margin-top: auto;
   }
 
   /* About */
   .about {
     display: grid;
-    gap: 1.5rem;
+    gap: 2.5rem;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1000px) {
     .about {
-      grid-template-columns: 5fr 7fr;
-      gap: 4rem;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-head {
+      margin-bottom: 0;
     }
   }
 
-  .about-body p {
-    font-size: clamp(1.125rem, 1.8vw, 1.25rem);
-    line-height: 1.65;
-    color: var(--soft);
-    max-width: 58ch;
-  }
-
-  .about-body p + p {
-    margin-top: 1.25rem;
-  }
-
-  .facts {
+  .reasons {
     display: grid;
-    gap: 1.5rem;
-    margin-top: 2.5rem;
+    gap: 1rem;
   }
 
-  @media (min-width: 640px) {
-    .facts {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  .reason {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.1rem;
+    padding: 1.5rem;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
   }
 
-  .facts div {
-    padding-top: 1rem;
-    border-top: 1px solid var(--line);
-  }
-
-  dt {
-    color: var(--mist);
-    font-size: 0.875rem;
-  }
-
-  dd {
+  .reason p {
     margin-top: 0.35rem;
-    line-height: 1.45;
+    color: var(--soft);
+    font-size: 0.96875rem;
   }
 
   /* Contact */
-  .panel {
+  .cta {
+    position: relative;
+    overflow: hidden;
     display: grid;
     gap: 2.5rem;
-    padding: clamp(1.75rem, 5vw, 4rem);
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 6px;
+    padding: clamp(2rem, 5vw, 4rem);
+    background: var(--navy);
+    border-radius: 24px;
+    color: #ffffff;
   }
 
-  @media (min-width: 900px) {
-    .panel {
-      grid-template-columns: 5fr 7fr;
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(600px 300px at 0% 0%, rgb(47 85 212 / 0.35), transparent 70%),
+      linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+    background-size:
+      auto,
+      44px 44px,
+      44px 44px;
+    pointer-events: none;
+  }
+
+  .cta > :not(.cta-bg) {
+    position: relative;
+  }
+
+  @media (max-width: 560px) {
+    .cta {
+      padding: 2rem 1.25rem;
+      border-radius: 20px;
+    }
+
+    .channel {
+      gap: 0.75rem;
+      padding: 0.8rem 0.85rem;
+    }
+
+    .badge {
+      width: 36px;
+      height: 36px;
+    }
+
+    .value {
+      font-size: 0.9375rem;
+    }
+
+    .channel :global(.go) {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .cta {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 4rem;
       align-items: center;
     }
   }
 
-  .panel-intro p {
-    margin: 1.25rem 0 2rem;
-    color: var(--mist);
-    max-width: 40ch;
+  .cta-copy p {
+    margin-top: 1rem;
+    max-width: 42ch;
+    color: #b6c1d3;
+    font-size: 1.0625rem;
+  }
+
+  .channels {
+    display: grid;
+    gap: 0.75rem;
   }
 
   .channel {
@@ -511,29 +652,28 @@ const mailto = `mailto:${profile.email}`;
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 1rem;
-    padding: 1.1rem 0;
-    border-bottom: 1px solid var(--line);
+    padding: 0.9rem 1.1rem;
+    background: rgb(255 255 255 / 0.04);
+    border: 1px solid rgb(255 255 255 / 0.09);
+    border-radius: 14px;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s;
   }
 
-  .channels li:first-child .channel {
-    padding-top: 0;
-  }
-
-  .channels li:last-child .channel {
-    border-bottom: 0;
-    padding-bottom: 0;
+  a.channel:hover {
+    background: rgb(255 255 255 / 0.07);
+    border-color: rgb(255 255 255 / 0.18);
   }
 
   .badge {
     display: grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
-    border: 1px solid var(--line);
-    border-radius: 50%;
-    background: var(--bg);
-    color: var(--brass);
-    transition: border-color 0.2s;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgb(255 255 255 / 0.08);
+    color: #ffffff;
   }
 
   .channel-text {
@@ -542,118 +682,122 @@ const mailto = `mailto:${profile.email}`;
   }
 
   .label {
-    color: var(--mist);
-    font-size: 0.8125rem;
+    color: #8e9bb0;
+    font-size: 0.78rem;
   }
 
   .value {
-    font-size: 1.0625rem;
+    font-size: 0.98rem;
+    font-weight: 500;
     overflow-wrap: anywhere;
-    transition: color 0.2s;
   }
 
   .channel :global(.go) {
-    color: var(--mist);
+    color: #8e9bb0;
     transition:
-      color 0.2s,
-      transform 0.2s;
-  }
-
-  a.channel:hover .value {
-    color: var(--brass);
-  }
-
-  a.channel:hover .badge {
-    border-color: var(--brass);
+      color 0.15s,
+      transform 0.15s;
   }
 
   a.channel:hover :global(.go) {
-    color: var(--brass);
+    color: #ffffff;
     transform: translate(2px, -2px);
   }
 
   /* Footer */
   .foot {
+    border-top: 1px solid var(--line);
+  }
+
+  .foot-inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem 2rem;
-    margin-top: clamp(4rem, 8vw, 6rem);
+    gap: 1.25rem 2rem;
     padding-top: 2rem;
     padding-bottom: calc(2rem + env(safe-area-inset-bottom));
-    border-top: 1px solid var(--line);
+  }
+
+  .copy {
     color: var(--mist);
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 900px) {
+    .copy {
+      order: 0;
+      flex: 1;
+      text-align: center;
+    }
   }
 
   .socials {
     display: flex;
-    gap: 0.625rem;
+    gap: 0.5rem;
   }
 
   .social {
     display: grid;
     place-items: center;
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border: 1px solid var(--line);
-    border-radius: 50%;
-    color: var(--ink);
+    border-radius: 10px;
+    color: var(--soft);
     transition:
-      color 0.2s,
-      border-color 0.2s;
+      color 0.15s,
+      border-color 0.15s,
+      background-color 0.15s;
   }
 
   .social:hover {
-    color: var(--brass);
-    border-color: var(--brass);
+    color: var(--ink);
+    border-color: var(--line-strong);
+    background: var(--bg-soft);
   }
 
-  /* The one orchestrated moment: the name rises, the rule draws, the rest settles in. */
+  /* One orchestrated load: copy rises in, then the code card settles. */
   @media (prefers-reduced-motion: no-preference) {
-    .line > span {
-      animation: rise 1s cubic-bezier(0.2, 0.75, 0.1, 1) both;
+    .hero-copy > * {
+      animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
     }
-
-    .line:nth-child(2) > span {
+    .hero-copy > :nth-child(2) {
+      animation-delay: 0.06s;
+    }
+    .hero-copy > :nth-child(3) {
       animation-delay: 0.12s;
     }
-
-    .rule {
-      animation: draw 0.8s cubic-bezier(0.6, 0, 0.2, 1) 0.55s both;
+    .hero-copy > :nth-child(4) {
+      animation-delay: 0.18s;
     }
-
-    .hero-grid,
-    .meta {
-      animation: settle 0.9s ease-out 0.75s both;
+    .hero-copy > :nth-child(5) {
+      animation-delay: 0.24s;
+    }
+    .hero-visual {
+      animation: settle 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
     }
   }
 
   @keyframes rise {
     from {
-      transform: translateY(105%);
+      opacity: 0;
+      transform: translateY(14px);
     }
     to {
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes draw {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
+      opacity: 1;
+      transform: none;
     }
   }
 
   @keyframes settle {
     from {
       opacity: 0;
+      translate: 0 24px;
     }
     to {
       opacity: 1;
+      translate: 0 0;
     }
   }
 </style>

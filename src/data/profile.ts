@@ -1,13 +1,13 @@
 // All site copy lives here, so updating the page never means touching markup.
 
 export const profile = {
-  name: 'Yusuf YILDIZ',
-  firstName: 'Yusuf',
-  lastName: 'YILDIZ',
-  role: 'Senior full-stack Java developer and technical lead',
-  statement:
-    'I help teams design, build and scale Java platforms, from Spring Boot services and React front ends to Kubernetes delivery in the cloud.',
-  availability: 'Open to remote projects and lead roles',
+  name: 'Yusuf Yıldız',
+  role: 'Senior full-stack Java developer',
+  headline: 'Java platforms, engineered to last.',
+  intro:
+    "I'm Yusuf Yıldız, a senior full-stack Java developer and technical lead. I help teams design, build and scale backend systems, web and mobile products, and the cloud infrastructure that runs them.",
+  availability: 'Available for remote projects',
+  highlights: ['15+ years in production Java', 'Remote, UTC+3', 'English and Turkish'],
   location: 'Istanbul, Türkiye',
   timezone: 'UTC+3',
   email: 'yusufyildiz86@gmail.com',
@@ -16,10 +16,10 @@ export const profile = {
   github: 'https://github.com/yusufyildiz34',
   githubHandle: 'yusufyildiz34',
   description:
-    'Yusuf YILDIZ, senior full-stack Java developer and technical lead. Backend engineering, full-stack products, architecture, cloud-native delivery and technical leadership.',
+    'Yusuf Yıldız is a senior full-stack Java developer and technical lead. Backend engineering, full-stack products, architecture, cloud-native delivery and technical leadership.',
 };
 
-export type IconName =
+export type ServiceIcon =
   | 'hard-drives'
   | 'devices'
   | 'blueprint'
@@ -27,7 +27,7 @@ export type IconName =
   | 'users-three'
   | 'circuitry';
 
-export const services: { icon: IconName; title: string; text: string; tools: string }[] = [
+export const services: { icon: ServiceIcon; title: string; text: string; tools: string }[] = [
   {
     icon: 'hard-drives',
     title: 'Backend engineering',
@@ -44,18 +44,18 @@ export const services: { icon: IconName; title: string; text: string; tools: str
     icon: 'blueprint',
     title: 'Architecture and modernization',
     text: 'System design for new platforms, and step-by-step migration of legacy monoliths to services without stopping the business.',
-    tools: 'Microservices, domain-driven design, event-driven systems, CQRS',
+    tools: 'Microservices, domain-driven design, event-driven systems',
   },
   {
     icon: 'cloud-arrow-up',
     title: 'Cloud-native delivery',
     text: 'Containerized deployments, CI/CD pipelines and observability, so shipping becomes routine.',
-    tools: 'Docker, Kubernetes, Helm, Argo CD, Terraform, GitHub Actions, AWS, Azure',
+    tools: 'Docker, Kubernetes, Argo CD, Terraform, AWS, Azure',
   },
   {
     icon: 'users-three',
     title: 'Technical leadership',
-    text: 'Hands-on lead for your engineering team: architecture decisions, code review, mentoring and a delivery rhythm that works.',
+    text: 'A hands-on lead for your team: architecture decisions, code review, mentoring and a delivery rhythm that works.',
     tools: 'Scrum, test-driven development, code review, mentoring',
   },
   {
@@ -66,14 +66,25 @@ export const services: { icon: IconName; title: string; text: string; tools: str
   },
 ];
 
-export const about = {
-  text: [
-    'I have been building production software since 2009, as a hands-on engineer and as a technical lead. My work spans health IoT, mobile payments, telecom charging, digital identity and a national commodity exchange.',
-    'I care about software that stays reliable, fast and easy to change long after launch, and I work best as part of the team rather than as an outside voice.',
-  ],
-  facts: [
-    { label: 'Experience', value: '15+ years in production Java' },
-    { label: 'Core stack', value: 'Java 21, Spring Boot 3, React, Kubernetes' },
-    { label: 'Working model', value: 'Remote, UTC+3, English and Turkish' },
-  ],
-};
+export type ReasonIcon = 'code' | 'blueprint' | 'globe-hemisphere-west';
+
+export const reasons: { icon: ReasonIcon; title: string; text: string }[] = [
+  {
+    icon: 'code',
+    title: 'Senior and hands-on',
+    text: 'More than 15 years of production Java. I design the architecture and I write the code.',
+  },
+  {
+    icon: 'blueprint',
+    title: 'From zero to live, and from legacy to modern',
+    text: 'I have built platforms from scratch and migrated a live mobile payment system from a legacy monolith to microservices.',
+  },
+  {
+    icon: 'globe-hemisphere-west',
+    title: 'Remote by default',
+    text: 'Working from Istanbul (UTC+3) with teams across time zones, in English or Turkish.',
+  },
+];
+
+export const industries =
+  'Health IoT, mobile payments, telecom, digital identity and commodity trading.';

@@ -1,16 +1,20 @@
 ---
-// Inline Phosphor icons (MIT). Duotone for services, light for contact and social links.
+// Inline Phosphor icons (MIT). Duotone for feature icons, light for UI and links.
 import hardDrives from '@phosphor-icons/core/duotone/hard-drives-duotone.svg?raw';
 import devices from '@phosphor-icons/core/duotone/devices-duotone.svg?raw';
 import blueprint from '@phosphor-icons/core/duotone/blueprint-duotone.svg?raw';
 import cloudArrowUp from '@phosphor-icons/core/duotone/cloud-arrow-up-duotone.svg?raw';
 import usersThree from '@phosphor-icons/core/duotone/users-three-duotone.svg?raw';
 import circuitry from '@phosphor-icons/core/duotone/circuitry-duotone.svg?raw';
+import code from '@phosphor-icons/core/duotone/code-duotone.svg?raw';
+import globe from '@phosphor-icons/core/duotone/globe-hemisphere-west-duotone.svg?raw';
 import envelope from '@phosphor-icons/core/light/envelope-simple-light.svg?raw';
 import linkedin from '@phosphor-icons/core/light/linkedin-logo-light.svg?raw';
 import github from '@phosphor-icons/core/light/github-logo-light.svg?raw';
 import mapPin from '@phosphor-icons/core/light/map-pin-light.svg?raw';
 import arrowUpRight from '@phosphor-icons/core/light/arrow-up-right-light.svg?raw';
+import checkCircle from '@phosphor-icons/core/fill/check-circle-fill.svg?raw';
+import fileCode from '@phosphor-icons/core/light/file-code-light.svg?raw';
 
 const icons = {
   'hard-drives': hardDrives,
@@ -19,11 +23,15 @@ const icons = {
   'cloud-arrow-up': cloudArrowUp,
   'users-three': usersThree,
   circuitry,
+  code,
+  'globe-hemisphere-west': globe,
   envelope,
   linkedin,
   github,
   'map-pin': mapPin,
   'arrow-up-right': arrowUpRight,
+  'check-circle': checkCircle,
+  'file-code': fileCode,
 } as const;
 
 export type Name = keyof typeof icons;

@@ -1,16 +1,19 @@
 :root {
   --bg: #ffffff;
-  --surface: #f6f7f9;
-  --line: #e3e6eb;
-  --line-strong: #cfd4dc;
-  --ink: #0e1626;
-  --soft: #3d4757;
-  --mist: #687385;
-  --brass: #b08d4f;
-  --brass-soft: rgb(176 141 79 / 0.12);
-  --font: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
-  --gutter: clamp(16px, 5vw, 56px);
-  --max: 1240px;
+  --bg-soft: #f7f8fa;
+  --ink: #0b1220;
+  --soft: #3f4a5c;
+  --mist: #687386;
+  --line: #e7e9ef;
+  --line-strong: #d5d9e2;
+  --accent: #2f55d4;
+  --accent-soft: #eef2fd;
+  --navy: #0c1424;
+  --font: 'Geist Variable', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --gutter: clamp(16px, 5vw, 48px);
+  --max: 1200px;
+  --radius: 16px;
   color-scheme: light;
 }
 
@@ -23,6 +26,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  scroll-padding-top: 88px;
   background: var(--bg);
 }
 
@@ -37,15 +41,16 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
-  font-size: 1.0625rem;
+  font-size: 1rem;
   line-height: 1.65;
+  font-feature-settings: 'ss01';
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background: var(--brass);
+  background: var(--accent);
   color: #ffffff;
 }
 
@@ -70,9 +75,9 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--brass);
-  outline-offset: 4px;
-  border-radius: 4px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 .icon {
@@ -93,7 +98,8 @@ a {
   background: var(--ink);
   color: #ffffff;
   padding: 0.5rem 0.75rem;
-  z-index: 10;
+  border-radius: 8px;
+  z-index: 50;
 }
 
 .skip:focus {

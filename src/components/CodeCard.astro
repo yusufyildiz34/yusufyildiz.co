@@ -1,0 +1,179 @@
+---
+// A decorative editor window with a short Java snippet. Hidden from screen readers;
+// the same information is in the hero text.
+import Icon from './Icon.astro';
+
+type Tok = [cls: string, text: string];
+const k = (t: string): Tok => ['k', t]; // keyword
+const a = (t: string): Tok => ['a', t]; // annotation
+const ty = (t: string): Tok => ['t', t]; // type
+const s = (t: string): Tok => ['s', t]; // string
+const m = (t: string): Tok => ['m', t]; // method
+const n = (t: string): Tok => ['n', t]; // number
+const p = (t: string): Tok => ['p', t]; // plain
+
+const lines: Tok[][] = [
+  [a('@Service')],
+  [k('public class '), ty('ProjectService'), p(' {')],
+  [],
+  [p('  '), k('private final '), ty('Engineer'), p(' yusuf =')],
+  [p('    '), ty('Engineer'), p('.'), m('builder'), p('()')],
+  [p('      .'), m('experienceYears'), p('('), n('15'), p(')')],
+  [p('      .'), m('stack'), p('('), s('"Java 21"'), p(', '), s('"Spring Boot 3"'), p(')')],
+  [p('      .'), m('stack'), p('('), s('"React"'), p(', '), s('"Kubernetes"'), p(')')],
+  [p('      .'), m('timezone'), p('('), s('"UTC+3"'), p(')')],
+  [p('      .'), m('build'), p('();')],
+  [],
+  [p('  '), k('public '), ty('Release'), p(' '), m('deliver'), p('('), ty('Brief'), p(' brief) {')],
+  [p('    '), k('var'), p(' plan = yusuf.'), m('design'), p('(brief);')],
+  [p('    '), k('return'), p(' yusuf.'), m('build'), p('(plan)')],
+  [p('      .'), m('test'), p('()')],
+  [p('      .'), m('ship'), p('();')],
+  [p('  }')],
+  [p('}')],
+];
+---
+
+<div class="card" aria-hidden="true">
+  <div class="bar">
+    <span class="dots"><i></i><i></i><i></i></span>
+    <span class="tab"><Icon name="file-code" size={14} />ProjectService.java</span>
+  </div>
+  <pre><code>{
+    lines.map((line, i) => (
+      <span class="ln">
+        <span class="no">{i + 1}</span>
+        <span class="src">{line.map(([c, t]) => <span class={c}>{t}</span>)}</span>
+      </span>
+    ))
+  }</code></pre>
+  <div class="status">
+    <span class="ok"><Icon name="check-circle" size={14} />All checks passed</span>
+    <span>Java 21</span>
+  </div>
+</div>
+
+<style>
+  .card {
+    position: relative;
+    background: #0c1424;
+    border: 1px solid #1d2a40;
+    border-radius: 18px;
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.04) inset,
+      0 30px 60px -20px rgb(11 18 32 / 0.45),
+      0 18px 36px -18px rgb(11 18 32 / 0.35);
+    overflow: hidden;
+    color: #c3cede;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid #1a263b;
+    background: #0f1829;
+  }
+
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dots i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #26344d;
+  }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: #8fa0b8;
+  }
+
+  .tab :global(.icon) {
+    color: #8fb3ff;
+  }
+
+  pre {
+    margin: 0;
+    padding: 1.1rem 0 1.25rem;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: clamp(0.72rem, 1.05vw, 0.84rem);
+    line-height: 1.75;
+  }
+
+  code {
+    display: block;
+    min-width: max-content;
+  }
+
+  .ln {
+    display: flex;
+  }
+
+  .no {
+    flex: none;
+    width: 3rem;
+    padding-right: 1rem;
+    text-align: right;
+    color: #3a4a64;
+    user-select: none;
+  }
+
+  .src {
+    padding-right: 1.25rem;
+    white-space: pre;
+  }
+
+  .k {
+    color: #93b4ff;
+  }
+  .a {
+    color: #c6a8ff;
+  }
+  .t {
+    color: #6fd6c3;
+  }
+  .s {
+    color: #f2c879;
+  }
+  .m {
+    color: #f3f6fb;
+  }
+  .n {
+    color: #ff9f80;
+  }
+
+  .status {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 1.1rem;
+    border-top: 1px solid #1a263b;
+    background: #0f1829;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: #6f809a;
+  }
+
+  .ok {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #8fd9a8;
+  }
+
+  @media (max-width: 480px) {
+    .no {
+      width: 2.25rem;
+      padding-right: 0.75rem;
+    }
+  }
+</style>
