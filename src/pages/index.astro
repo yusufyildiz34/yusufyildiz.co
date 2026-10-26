@@ -5,7 +5,7 @@ import CodeCard from '../components/CodeCard.astro';
 import { profile, services, reasons, industries, stats, faqs } from '../data/profile';
 
 const year = new Date().getFullYear();
-const mailto = `mailto:${profile.email}`;
+const mailto = `mailto:${profile.email}?subject=${encodeURIComponent('Project inquiry')}`;
 ---
 
 <Base>
@@ -391,6 +391,11 @@ const mailto = `mailto:${profile.email}`;
     display: grid;
     gap: clamp(3rem, 6vw, 4rem);
     align-items: center;
+  }
+
+  /* Let the code card shrink with the column so narrow screens never clip the hero text. */
+  .hero-grid > * {
+    min-width: 0;
   }
 
   @media (min-width: 1000px) {

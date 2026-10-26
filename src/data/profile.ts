@@ -5,7 +5,7 @@ export const profile = {
   role: 'Senior Fullstack Java Developer',
   headline: 'Java platforms, engineered to last.',
   intro:
-    "I'm Yusuf YILDIZ, a senior full-stack Java developer and technical lead. I help teams design, build and scale backend systems, web and mobile products, and the cloud infrastructure that runs them.",
+    "I'm Yusuf YILDIZ, a senior fullstack Java developer and technical lead. I help teams design, build and scale backend systems, web and mobile products, and the cloud infrastructure that runs them.",
   availability: 'Available for remote projects',
   highlights: ['15+ years in production Java', 'Remote, UTC+3', 'English and Turkish'],
   location: 'Istanbul, Türkiye',
@@ -16,6 +16,8 @@ export const profile = {
   github: 'https://github.com/yusufyildiz34',
   githubHandle: 'yusufyildiz34',
   url: 'https://yusufyildiz.co/',
+  // Update when the page content changes; used as the sitemap's <lastmod>.
+  lastUpdated: '2026-10-26',
   gaMeasurementId: 'G-1J0P085LKC',
   seoTitle: 'Yusuf YILDIZ | Senior Fullstack Java Developer & Technical Lead',
   description:
@@ -70,7 +72,7 @@ export const services: {
   },
   {
     icon: 'devices',
-    title: 'Full-stack products',
+    title: 'Fullstack products',
     text: 'Web and mobile products built end to end, from the database to the screen your users touch.',
     tools: ['React', 'React Native', 'TypeScript', 'Spring Boot'],
   },

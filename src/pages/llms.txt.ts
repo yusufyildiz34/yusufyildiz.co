@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
 import { profile, services, reasons, industries, faqs } from '../data/profile';
 
-// A plain-text summary for AI assistants and answer engines (https://llmstxt.org).
+// A Markdown summary for AI assistants and answer engines, following the llms.txt
+// proposal (https://llmstxt.org): an H1, a blockquote summary, and link lists.
 // Generated from the same data as the page, so it never drifts.
 export const GET: APIRoute = () => {
   const lines = [
@@ -24,7 +25,7 @@ export const GET: APIRoute = () => {
     '',
     '## Services',
     '',
-    ...services.map((s) => `- **${s.title}**: ${s.text} Technologies: ${s.tools.join(', ')}.`),
+    ...services.map((s) => `- [${s.title}](${profile.url}#services): ${s.text} Technologies: ${s.tools.join(', ')}.`),
     '',
     '## Why teams work with him',
     '',
@@ -35,10 +36,10 @@ export const GET: APIRoute = () => {
     ...faqs.flatMap((f) => [`### ${f.q}`, '', f.a, '']),
     '## Contact',
     '',
-    `- Email: ${profile.email}`,
-    `- LinkedIn: ${profile.linkedin}`,
-    `- GitHub: ${profile.github}`,
-    `- Website: ${profile.url}`,
+    `- [Email](mailto:${profile.email}): ${profile.email}, the quickest way to reach him`,
+    `- [LinkedIn](${profile.linkedin}): professional profile`,
+    `- [GitHub](${profile.github}): code and open-source contributions`,
+    `- [Website](${profile.url}): services, background and FAQ`,
     '',
   ];
   return new Response(lines.join('\n'), { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
